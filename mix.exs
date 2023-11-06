@@ -21,8 +21,7 @@ defmodule Blockr.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      # {:dep_from_hexpm, "~> 0.3.0"},
-      {:canvas, git: "https://github.com/groxio-learning/canvas.git", tag: "v0.1"}
+      {:kino, "~> 0.11.1"},
     ]
   end
 end
