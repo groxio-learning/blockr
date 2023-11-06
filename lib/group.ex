@@ -19,7 +19,6 @@ defmodule Group do
     Enum.map(points, &Point.swap/1)
   end
 
-
   def flip_left_right(points) do
     Enum.map(points, &Point.flip_left_right/1)
   end
@@ -30,5 +29,9 @@ defmodule Group do
 
   def rotate(points, degrees) do
     Enum.map(points, &Point.rotate(&1, degrees))
+  end
+
+  def paint(points, shape_name) do
+    Enum.map(points, &Point.paint(&1, Color.for(shape_name)))
   end
 end
