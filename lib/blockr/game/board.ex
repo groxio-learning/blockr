@@ -32,6 +32,30 @@ defmodule Blockr.Game.Board do
     %{board | walls: walls, points: MapSet.new(walls)}
   end
 
+  defp count_complete_rows(board) do
+    board.junkyard
+    |> Map.new()
+    |> Map.keys()
+    |> Enum.group_by(fn {r, _c} -> r end)
+    |> Map.values()
+    |> Enum.count(fn list -> length(list) == 10 end)
+  end
+
+  def add_score(board) do
+    number_of_rows = count_complete_rows(board)
+
+    score =
+      cond do
+        number_of_rows == 0 ->
+          0
+        true ->
+          :math.pow(2, number_of_rows)
+          |> round()
+          |> Kernel.*(50)
+      end
+    %{board|score: score}
+  end
+
   def detatch(board) do
     points = Tetromino.to_group(board.tetro)
     colors = Group.paint(points, board.tetro.name)
@@ -39,6 +63,7 @@ defmodule Blockr.Game.Board do
     mapset = Enum.reduce(points, board.points, &MapSet.put(&2, &1))
 
     %{board| points: mapset, junkyard: board.junkyard ++ colors}
+    |> add_score()
   end
 
   def show(board) do
